@@ -1,4 +1,17 @@
-*{
+body{
   background: #EFF1F5;
   color: #4C4F69;
+}
+
+#library{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.book{
+  background: #BCC0CC;
+  border: 1px solid #9CA0B0;
+  border-radius: 5px;
+  padding: 10px;
 }
