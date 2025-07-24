@@ -1,6 +1,6 @@
 body{
-  background: #EFF1F5;
-  color: #4C4F69;
+  background: #1E1E2E;
+  color: #CDD6F4;
 }
 
 #library{
@@ -10,8 +10,65 @@ body{
 }
 
 .book{
-  background: #BCC0CC;
-  border: 1px solid #9CA0B0;
+  background: #313244;
+  border: 1px solid #F5E0DC;
   border-radius: 5px;
   padding: 10px;
+}
+
+#toolbar{
+  margin: 10px 0;
+}
+
+#toolbar > button,
+.submit{
+  background: #A6E3A1;
+  color: #1E1E2E;
+  border: 1px solid #1E1E2E;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.addBook,
+input{
+  background: #1e1e2e;
+  color: #CDD6F4;
+  border: 1px solid #F5E0DC;
+  border-radius: 10px;
+}
+
+.addBook{
+  padding: 15px;
+}
+
+input{
+  padding: 5px;
+}
+
+input:focus{
+  border-color: #74C7EC;
+  outline: 1px solid #74C7EC;
+}
+
+.addBook > form{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.addBook > div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* hide arrows from number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
 }
