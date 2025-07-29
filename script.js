@@ -16,43 +16,76 @@ function addBook(title, author, year, isRead)
 }
 /******************************************************************************/
 /* Display */
+function createElement(tag, className = '', text = '')
+{
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text) element.textContent = text;
+  return element;
+}
+
+function createDialog({
+  dialogSelector,
+  openBtnSelector,
+  closeBtnSelector,
+  onSubmit})
+{
+  const dialog = document.querySelector(dialogSelector);
+  const openBtn = document.querySelector(openBtnSelector);
+  const closeBtn = document.querySelector(closeBtnSelector);
+
+  openBtn.addEventListener('click', () => dialog.showModal());
+  closeBtn.addEventListener('click', () => dialog.close());
+
+  const submitBtn = document.querySelector('.submit');
+  submitBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    onSubmit(dialog);
+    dialog.close();
+  });
+}
+
 function Display(index)
 {
   const library = document.querySelector('#library');
+  const book = myLibrary[index];
+  const bookContainer = createElement('div', 'book');
 
-  const bookContainer = document.createElement('div');
-  bookContainer.className = "book";
+  const title = createElement('h2', '', book.title);
+  const author = createElement('h3', '', book.author);
+  const year = createElement('p', '', book.year);
 
-  const title = document.createElement('h2');
-  title.textContent = myLibrary[index].title;
-  bookContainer.appendChild(title);
-  const author = document.createElement('h3');
-  author.textContent = `By ${myLibrary[index].author}`;
-  bookContainer.appendChild(author);
-  const year = document.createElement('p');
-  year.textContent = `Year Published: ${myLibrary[index].year}`;
-  bookContainer.appendChild(year);
+  const readStatus = createElement('p', '', book.isRead);
 
+  const delButton = createElement('button', 'delete', "Delete Book");
+  delButton.addEventListener('click', () => delDialog.showModal());
+
+  bookContainer.append(title, author, year, readStatus, delButton);
   library.appendChild(bookContainer);
 }
 
-const dialog = document.querySelector('.addBook');
+createDialog({
+  dialogSelector: '.addBook',
+  openBtnSelector: '#toolbar > button',
+  closeBtnSelector: 'dialog button',
+  onSubmit: (dialog) => {
+    const title = dialog.querySelector('#title').value;
+    const author = dialog.querySelector('#author').value;
+    const year = dialog.querySelector('#year').value;
 
-const showDialog = document.querySelector('#toolbar > button');
-const closeDialog = document.querySelector('dialog button');
-showDialog.addEventListener('click', () => dialog.showModal());
-closeDialog.addEventListener('click', () => dialog.close());
+    addBook(title, author, year, false);
+    Display(myLibrary.length - 1);
+  }
+})
 
-const submitDialog = document.querySelector('.submit');
-const submitTitle = document.querySelector('#title');
-const submitAuthor = document.querySelector('#author');
-const submitYear = document.querySelector('#year');
-submitDialog.addEventListener('click', (event) => {
-  event.preventDefault();
-  addBook(submitTitle.value, submitAuthor.value, submitYear.value, false);
-  Display(myLibrary.length - 1);
-  dialog.close();
-});
+createDialog({
+  dialogSelector: '.delBook',
+  openBtnSelector: '',
+  closeBtnSelector: '',
+  onSubmit: (dialog) => {
+
+  }
+})
 /******************************************************************************/
 /* Testing */
 addBook("The Fellowship of the Ring", "J. R. R. Tolkien", 1954, true);
