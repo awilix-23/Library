@@ -30,14 +30,17 @@ function createDialog({
   closeBtnSelector,
   onSubmit})
 {
+  if (openBtnSelector != null) {
+    const openBtn = document.querySelector(openBtnSelector);
+    openBtn.addEventListener('click', () => dialog.showModal());
+  }
+
   const dialog = document.querySelector(dialogSelector);
-  const openBtn = document.querySelector(openBtnSelector);
   const closeBtn = document.querySelector(closeBtnSelector);
 
-  openBtn.addEventListener('click', () => dialog.showModal());
   closeBtn.addEventListener('click', () => dialog.close());
 
-  const submitBtn = document.querySelector('.submit');
+  const submitBtn = dialog.querySelector('.submit');
   submitBtn.addEventListener('click', (event) => {
     event.preventDefault();
     onSubmit(dialog);
@@ -55,19 +58,37 @@ function Display(index)
   const author = createElement('h3', '', book.author);
   const year = createElement('p', '', book.year);
 
-  const readStatus = createElement('p', '', book.isRead);
+  const readStatus = createElement('p', '', book.isRead ? 'Read' : 'Not Read');
+  readStatus.addEventListener('click', () => {
+    book.isRead = !book.isRead;
+    refreshLibrary();
+  })
 
-  const delButton = createElement('button', 'delete', "Delete Book");
-  delButton.addEventListener('click', () => delDialog.showModal());
+  const delButton = createElement('button', 'delete', "Delete");
+  delButton.addEventListener('click', () => {
+    const dialog = document.querySelector('.delBook');
+    dialog.querySelector('#bookID').value = book.id;
+    dialog.showModal();
+  })
 
   bookContainer.append(title, author, year, readStatus, delButton);
   library.appendChild(bookContainer);
 }
 
+function refreshLibrary()
+{
+  const library = document.querySelector('#library')
+  library.innerHTML = '';
+
+  for (let i = 0; i <= myLibrary.length - 1; i++) {
+    Display(i);
+  }
+}
+
 createDialog({
   dialogSelector: '.addBook',
   openBtnSelector: '#toolbar > button',
-  closeBtnSelector: 'dialog button',
+  closeBtnSelector: 'button.close',
   onSubmit: (dialog) => {
     const title = dialog.querySelector('#title').value;
     const author = dialog.querySelector('#author').value;
@@ -80,10 +101,13 @@ createDialog({
 
 createDialog({
   dialogSelector: '.delBook',
-  openBtnSelector: '',
-  closeBtnSelector: '',
+  openBtnSelector: null,
+  closeBtnSelector: 'button.close',
   onSubmit: (dialog) => {
-
+    const uuid = dialog.querySelector('#bookID').value;
+    const index = myLibrary.findIndex(book => book.id == uuid);
+    myLibrary.splice(index, 1);
+    refreshLibrary();
   }
 })
 /******************************************************************************/
@@ -92,6 +116,4 @@ addBook("The Fellowship of the Ring", "J. R. R. Tolkien", 1954, true);
 addBook("The Two Towers", "J. R. R. Tolkien", 1954, false);
 addBook("The Return of the King", "J. R. R. Tolkien", 1954, false);
 
-for (i = 0; i <= myLibrary.length - 1; i++) {
-  Display(i); // Initialize
-}
+refreshLibrary();

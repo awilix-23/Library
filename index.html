@@ -21,14 +21,25 @@
           <input type='text' id='author'>
           <label for='year'>Year Published:</label>
           <input type='number' id='year'>
-        </form>
 
-        <div>
-          <button type='button'>Cancel</button>
-          <button class='submit' type='submit'>Submit</button>
-        </div>
+          <div class='opts'>
+            <button class='close'>Cancel</button>
+            <button class='submit' type='submit'>Submit</button>
+          </div>
+        </form>
       </dialog>
     </div>
+
+    <dialog class="delBook">
+      <form>
+        <p>Are you sure you want to delete this book ?</p>
+        <input type='hidden' id='bookID'>
+        <div class='opts'>
+          <button class='close'>Cancel</button>
+          <button class='submit' type='submit'>Delete</button>
+        </div>
+      </form>
+    </dialog>
 
     <div id="library"></div> 
   </body>

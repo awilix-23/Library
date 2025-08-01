@@ -21,15 +21,17 @@ body{
 }
 
 #toolbar > button,
-.submit{
+input[type=submit],
+.delete{
   background: #A6E3A1;
   color: #1E1E2E;
-  border: 1px solid #1E1E2E;
+  border: none;
   border-radius: 10px;
   padding: 5px;
 }
 
 .addBook,
+.delBook,
 input{
   background: #1e1e2e;
   color: #CDD6F4;
@@ -37,7 +39,8 @@ input{
   border-radius: 10px;
 }
 
-.addBook{
+.addBook,
+.delbook{
   padding: 15px;
 }
 
@@ -57,7 +60,7 @@ input:focus{
   margin-bottom: 10px;
 }
 
-.addBook > div{
+.opts{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -71,4 +74,8 @@ input::-webkit-inner-spin-button {
 }
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.delete{
+  background: #F38BA8;
 }
